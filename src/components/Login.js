@@ -55,7 +55,7 @@ export default function SignIn() {
     const handleSubmit = event => {
         if(event)
             event.preventDefault();
-        let url = 'http://localhost:5000/api/login';
+        let url = 'https://pokedex-users-api.herokuapp.com/api/users/login';
         let data = {username: username, password: password};
         
     

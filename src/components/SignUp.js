@@ -47,7 +47,7 @@ export default function SignUp() {
   const handleSubmit = event => {
     if(event)
         event.preventDefault();
-    let url = 'http://localhost:5000/api/user/createUser';
+    let url = 'https://pokedex-users-api.herokuapp.com/api/users';
     let data = {username: username, password: password};
     
 
