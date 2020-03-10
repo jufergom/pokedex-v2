@@ -31,6 +31,10 @@ const useStyles = makeStyles(theme => ({
     submit: {
         margin: theme.spacing(3, 0, 2),
     },
+    image: {
+        width: '100%',
+        height: 'auto'
+    }
 }));
 
 export default function SignIn() {
@@ -78,6 +82,11 @@ export default function SignIn() {
         <Container component="main" maxWidth="xs">
             <CssBaseline />
             <div className={classes.paper}>
+                <img 
+                    src="https://raw.githubusercontent.com/jufergom/pokedex/master/src/img/pokemon_logo.png"
+                    className={classes.image} 
+                    alt="pokemon"
+                />
                 <Avatar className={classes.avatar}>
                     <LockOutlinedIcon />
                 </Avatar>
@@ -90,9 +99,9 @@ export default function SignIn() {
                         margin="normal"
                         required
                         fullWidth
-                        id="email"
-                        label="Email Address"
-                        name="email"
+                        id="username"
+                        label="Usuario"
+                        name="username"
                         value={username}
                         onChange={handleUserChange}
                         autoComplete="email"
@@ -104,7 +113,7 @@ export default function SignIn() {
                         required
                         fullWidth
                         name="password"
-                        label="Password"
+                        label="Contraseña"
                         type="password"
                         id="password"
                         value={password}
@@ -125,15 +134,10 @@ export default function SignIn() {
                         Sign In
                     </Button>
                     <Grid container>
-                        <Grid item xs>
-                        <Link href="#" variant="body2">
-                            Forgot password?
-                        </Link>
-                        </Grid>
                         <Grid item>
-                        <Link href="#" variant="body2">
-                            {"Don't have an account? Sign Up"}
-                        </Link>
+                            <Link href="/SignUp" variant="body2">
+                                {"¿No tienes una cuenta? Crear cuenta"}
+                            </Link>
                         </Grid>
                     </Grid>
                 </form>
