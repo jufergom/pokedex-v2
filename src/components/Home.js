@@ -48,25 +48,23 @@ const useStyles = makeStyles(theme => ({
 export default function Home() {
     const classes = useStyles();
 
-    let [pokemonList, setPokemonList] = useState([]); //list of fetched pokemon (only names)
-    let [pokemons, setPokemons] = useState([]); //individual pokemons info
+    const [pokemonList, setPokemonList] = useState([]); //list of fetched pokemon (only names)
+    const [pokemons, setPokemons] = useState([]); //individual pokemons info
+    const [url, setUrl] = useState('https://pokeapi.co/api/v2/pokemon');
+    const [nextUrl, setNextUrl] = useState('');
 
     useEffect(() => {
         const fetchKantoPokemon = () => {
-            fetch('https://pokeapi.co/api/v2/pokemon')
+            fetch(url)
                 .then(res => res.json())
                 .then(res => {
                     setPokemonList(res.results);
-                    /*
-                    res.results.forEach(pokemon => {
-                        fetchPokemonData(pokemon);
-                    })
-                    */
+                    setNextUrl(res.next);
                 }).catch(err => console.log(err))
         }
 
         fetchKantoPokemon();
-    }, []);
+    }, [url]);
 
     useEffect(() => {
         const fetchPokemonData = (pokemon) => {
@@ -89,6 +87,11 @@ export default function Home() {
         });
     }, [pokemonList]);
 
+    const goToNextPage = () => {
+        setUrl(nextUrl);
+    }
+
+
     return (
         <React.Fragment>
             <CssBaseline />
@@ -96,7 +99,7 @@ export default function Home() {
                 <Toolbar>
                     <CameraIcon className={classes.icon} />
                     <Typography variant="h6" color="inherit" noWrap>
-                        Album layout
+                        Pokedex
                     </Typography>
                 </Toolbar>
             </AppBar>
@@ -105,27 +108,13 @@ export default function Home() {
                 <div className={classes.heroContent}>
                 <Container maxWidth="sm">
                     <Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
-                    Album layout
+                        Pokedex
                     </Typography>
                     <Typography variant="h5" align="center" color="textSecondary" paragraph>
                     Something short and leading about the collection below—its contents, the creator, etc.
                     Make it short and sweet, but not too short so folks don&apos;t simply skip over it
                     entirely.
                     </Typography>
-                    <div className={classes.heroButtons}>
-                    <Grid container spacing={2} justify="center">
-                        <Grid item>
-                        <Button variant="contained" color="primary" onClick={() => console.log(pokemons)}>
-                            Main call to action
-                        </Button>
-                        </Grid>
-                        <Grid item>
-                        <Button variant="outlined" color="primary">
-                            Secondary action
-                        </Button>
-                        </Grid>
-                    </Grid>
-                    </div>
                 </Container>
                 </div>
                 <Container className={classes.cardGrid} maxWidth="md">
@@ -161,13 +150,22 @@ export default function Home() {
                     </Grid>
                 </Container>
             </main>
+            <div className={classes.heroButtons}>
+                <Grid container spacing={2} justify="center">
+                    <Grid item>
+                        <Button variant="contained" color="primary" onClick={goToNextPage}>
+                            Cargar mas pokemon
+                        </Button>
+                    </Grid>
+                </Grid>
+            </div>
             {/* Footer */}
             <footer className={classes.footer}>
                 <Typography variant="h6" align="center" gutterBottom>
-                    Footer
+                    Pokedex by jufergom
                 </Typography>
                 <Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-                    Something here to give the footer a purpose!
+                    Made using <a href="https://pokeapi.co/" target="_blank" rel="noopener noreferrer">Pokemon API pokeapi</a>
                 </Typography>
             </footer>
             {/* End footer */}
