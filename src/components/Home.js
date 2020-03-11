@@ -12,6 +12,7 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
     icon: {
@@ -47,6 +48,7 @@ const useStyles = makeStyles(theme => ({
 
 export default function Home() {
     const classes = useStyles();
+    const history = useHistory();
 
     const [pokemonList, setPokemonList] = useState([]); //list of fetched pokemon (only names)
     const [pokemons, setPokemons] = useState([]); //individual pokemons info
@@ -72,10 +74,22 @@ export default function Home() {
             fetch(url)
                 .then(res => res.json())
                 .then(res => {
+                    let type1;
+                    let type2;
+                    if(res.types.length === 2) {
+                        type1 = res.types[1].type.name;
+                        type2 = res.types[0].type.name;
+                    }
+                    else {
+                        type1 = res.types[0].type.name;
+                        type2 = 'none'
+                    }
                     let newPokemon = {
                         id: res.order,
                         name: res.name,
-                        sprite: res.sprites.front_default
+                        sprite: res.sprites.front_default,
+                        type1: type1,
+                        type2: type2
                     };
                     setPokemons(p => ([...p, newPokemon]));
                     //setPokemons([...pokemons, newPokemon]);
@@ -86,11 +100,14 @@ export default function Home() {
             fetchPokemonData(pokemon);
         });
     }, [pokemonList]);
-
+    
     const goToNextPage = () => {
         setUrl(nextUrl);
     }
 
+    const logOut = () => {
+        history.push('/');
+    }
 
     return (
         <React.Fragment>
@@ -98,9 +115,13 @@ export default function Home() {
             <AppBar position="relative">
                 <Toolbar>
                     <CameraIcon className={classes.icon} />
-                    <Typography variant="h6" color="inherit" noWrap>
-                        Pokedex
-                    </Typography>
+                    <Grid container justify="flex-end">
+                        <Grid item>
+                            <Button alignItems="flex-start" variant="contained" color="primary" onClick={logOut}>
+                                Cerrar sesion
+                            </Button>
+                        </Grid>
+                    </Grid>
                 </Toolbar>
             </AppBar>
             <main>
@@ -133,7 +154,11 @@ export default function Home() {
                                         {pokemon.name}
                                     </Typography>
                                     <Typography>
-                                        This is a media card. You can use this section to describe the content.
+                                        Types:
+                                        <ul>
+                                            <li>{pokemon.type1}</li>
+                                            <li>{pokemon.type2}</li>
+                                        </ul>
                                     </Typography>
                                 </CardContent>
                                 <CardActions>
