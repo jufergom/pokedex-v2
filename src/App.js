@@ -1,17 +1,15 @@
 import React from 'react';
 import './App.css';
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import Login from './components/Login';
 import Home from './components/Home';
-import SignUp from './components/SignUp';
+import Pokedex from './components/Pokedex';
 
 const routing = (
   <BrowserRouter>
     <div>
       <Switch>
-        <Route path="/" exact component={Login}></Route>
-        <Route path="/Home" component={Home}></Route>
-        <Route path="/SignUp" component={SignUp}></Route>
+        <Route path="/" exact component={Home}></Route>
+        <Route path="/Pokedex" component={Pokedex}></Route>
       </Switch>
     </div>
   </BrowserRouter>
